@@ -9,6 +9,3 @@ eureka:
   instance:
     prefer-ip-address: true
     hostname: windows-dev-hello
-  client:
-    service-url:
-      defaultZone: {cipher}bed6214f3f0f5a149c0c44128936cb4e147dcf34847c1ba114dc6d7a4d9b0239cd939a1b199ffd267499e8fc61bf9cfb5a3452cafe45f73c6358c33e416b0409
