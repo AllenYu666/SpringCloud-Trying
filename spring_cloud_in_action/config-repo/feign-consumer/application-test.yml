@@ -1,0 +1,86 @@
+server:
+  port: 9900
+
+spring:
+  application:
+    name: feign-consumer
+  main:
+    allow-bean-definition-overriding: true
+
+
+eureka:
+  instance:
+    hostname: windows-test-feignconsumer
+    prefer-ip-address: true
+  client:
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: {cipher}bed6214f3f0f5a149c0c44128936cb4e147dcf34847c1ba114dc6d7a4d9b0239cd939a1b199ffd267499e8fc61bf9cfb5a3452cafe45f73c6358c33e416b0409
+
+# ribbon 负载均衡配置-重试机制
+MEMBER-SERVICE:
+  ribbon:
+    ConnectTimeout: 500 #请求连接的超时时间
+    ReadTimeout: 2500 #请求处理的超时时间
+    OkToRetryOnAllOperations: true #对所有请求都进行重试
+    MaxAutoRetriesNextServer: 2 #切换实例的重试次数  即请求实例a失败  然后切换请求实例b  若失败 再请求实例c  如果仍然失败  则响应失败
+    MaxAutoRetries: 1 #对当前实例的重试次数 1：即请求来到当前实例失败后 再重试一次 成功则返回  失败则切换请求另一个实例
+
+# ribbon 负载均衡配置
+HELLO-SERVICE:
+  ribbon:
+    ConnectTimeout: 500
+    ReadTimeout: 2000
+    OkToRetryOnAllOperations: true
+    MaxAutoRetriesNextServer: 2
+    MaxAutoRetries: 1
+
+
+feign:
+  hystrix:
+    enabled: true #true 启用feign client 的hystrix   全局启用
+      #feign:
+      #  hystrix:
+      #    enabled: false # 全局性关闭  如果只是想关闭某个服务的hystrix 可以通过注解@Scope("prototype")
+      # 为指定的feign客户端构建Feign.Builder实例 这样即可使该服务脱离hystrix的制约  当然需通过配置类实现
+    # 然后将配置类加到@FeignClient(name="", configuration=aaa)？？？
+# 请求压缩-------------------------------------------------------------------------------------------
+#  compression:
+#    request:
+#      enabled: true # 默认是false，关闭request的GZIP压缩
+#      mime-types: "text/xml", "application/xml", "application/json" #支持的压缩类型list 默认为这三个
+#      min-request-size: 2048 # 触发压缩的最小值
+#    response:
+#      enabled: true # 启用响应压缩  默认关闭
+
+# Hystrix命令----------------------------------------------
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 4000 # 全局的接口超时容断时间（所有启用feign-hystrix的FeignClient接口超时时间都一样）
+#    hello3: # 指定接口的超时容断时间(该名字为FeignClient中的接口名，若接口名字一样  配置将会一起生效)  不知道会不会被全局的配置覆盖？？
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 3000 # Hystrix的超时容断时间 必须大于ribbon的处理超时时间  否则ribbon重试机制会失效 没有意义
+
+# web端点管理--------------------------------------
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+# 配置Feign的日志级别（指定服务的接口的全限定名）
+logging:
+  level:
+    com:
+      goodcom:
+        feignconsumer:
+          consumerserv:
+            MemberService: "DEBUG"
+            HelloService: "DEBUG"

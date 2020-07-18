@@ -1,1 +1,2 @@
-has-up: yes
+health-check:
+  status: UP
