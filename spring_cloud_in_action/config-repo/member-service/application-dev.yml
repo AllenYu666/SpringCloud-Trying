@@ -1,0 +1,27 @@
+server:
+  port: 7731
+
+spring:
+  application:
+    name: member-service
+  main:
+    allow-bean-definition-overriding: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: "{cipher}59abe8b6c42458bfa18f7c5e2af76a9a29a4b7909b928a552413e44897303dd3"
+    password: "{cipher}f73a2b9c92386fbffd79dcb101d2da1b7e67eabf6b089b9170e9018740e96282"
+
+eureka:
+  instance:
+    hostname: windows-dev-member
+    prefer-ip-address: true
+  client:
+    healthcheck:
+      enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

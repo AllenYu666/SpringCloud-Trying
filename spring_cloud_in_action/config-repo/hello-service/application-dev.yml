@@ -1,0 +1,11 @@
+server:
+  port: 7712
+
+spring:
+  application:
+    name: hello-service
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: windows-dev-hello

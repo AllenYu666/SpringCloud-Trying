@@ -1,0 +1,16 @@
+server:
+  port: 7731
+
+spring:
+  application:
+    name: member-service
+  main:
+    allow-bean-definition-overriding: true
+
+eureka:
+  instance:
+    hostname: windows-prod-member
+    prefer-ip-address: true
+  client:
+    healthcheck:
+      enabled: true

@@ -1,0 +1,53 @@
+server:
+  port: 5555
+
+spring:
+  application:
+    name: zuul-api-gateway
+
+eureka:
+  instance:
+    hostname: windows-test-zuul-gateway
+    prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+zuul:
+  routes:
+    hello-api:
+      path: /hello-api/**   # ant语法
+      serviceId: HELLO-SERVICE
+    mem-api:
+      path: /mem-api/**
+      serviceId: MEMBER-SERVICE
+    feign-api:
+      path: /feign-api/**
+      serviceId: FEIGN-CONSUMER
+    local-api:
+      path: /localhello/**
+      url: forward:/local
+  strip-prefix: true
+  ignored-services: "*"
+  retryable: true
+
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 4000
+
+#AbstractRibbonCommand:
+#  HystrixAndRibbon
+
+ribbon:
+  ConnectTimeout: 500
+  ReadTimeout: 5000          # timeout of the target service process
+  OkToRetryOnAllOperations: true
+  MaxAutoRetriesNextServer: 2
+  MaxAutoRetries: 1
