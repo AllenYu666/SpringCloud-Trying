@@ -25,3 +25,5 @@ management:
     web:
       exposure:
         include: "*"
+
+mytest: aaa
