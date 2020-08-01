@@ -14,3 +14,5 @@ eureka:
   client:
     healthcheck:
       enabled: true
+
+my-test: aaa
