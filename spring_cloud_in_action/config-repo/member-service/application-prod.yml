@@ -26,4 +26,4 @@ management:
       exposure:
         include: "*"
 
-my-test: aaa222
+my-test: aaa333
