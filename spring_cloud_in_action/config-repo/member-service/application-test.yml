@@ -15,4 +15,4 @@ eureka:
     healthcheck:
       enabled: true
 
-my-test: aaa
+my-test: aaa222
